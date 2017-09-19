@@ -1,5 +1,6 @@
 float* forwardKin(float* Q) {
   // Q = [theta1, theta2, theta3, theta4, theta5]
+  // ANGLES ARE IN RADIANS
   float E_pos[4][4]; // x, y, z of end-effector
   float T0_1[4][4], T1_2[4][4], T2_3[4][4], T3_4[4][4], T4_5[4][4];
   
