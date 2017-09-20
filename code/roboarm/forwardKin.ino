@@ -1,11 +1,24 @@
-float* forwardKin(float* Q) {
+float** forwardKin(float* Q) {
   // Q = [theta1, theta2, theta3, theta4, theta5]
   // ANGLES ARE IN RADIANS
-  float E_pos[4][4]; // x, y, z of end-effector
   float T0_1[4][4], T1_2[4][4], T2_3[4][4], T3_4[4][4], T4_5[4][4];
+  float T0_2[4][4], T0_3[4][4], T0_4[4][4], T0_5[4][4];
   
   /* transformation matrices */
   T0_1 = multiply(RotX(0), multiply(TransX(0), multiply(TransZ(D1), RotZ(Q[0]))));
+  T1_2 = multiply(RotX(-PI/2), multiply(TransX(-A1), multiply(TransZ(0), RotZ(Q[1]-PI/2))));
+  T2_3 = multiply(RotX(0), multiply(TransX(A2), multiply(TransZ(0), RotZ(Q[2]))));
+  T3_4 = multiply(RotX(0), multiply(TransX(A3), multiply(TransZ(0), RotZ(Q[3]))));
+  T4_5 = multiply(RotX(PI/2), multiply(TransX(A4), multiply(TransZ(D5), RotZ(Q[4]))));
+  
+  T0_2 = multiply(T0_1, T1_2);
+  T0_3 = multiply(T0_2, T2_3);
+  T0_4 = multiply(T0_3, T3_4);
+  T0_5 = multiply(T0_4, T4_5);
+  
+  return T0_5;
+  // T0_5 = [X0_5; Y0_5; Z0_5; r0E]
+  //        [   0;    0;    0;   1]
 }
     
 float* RotX(float theta) {
